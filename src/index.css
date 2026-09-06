@@ -1,0 +1,231 @@
+@import 'tailwindcss';
+
+/* Cormorant Garamond — display serif. Vietnamese subset is essential for
+   names such as "Kiều Nam Hải"; without it the diacritics fall back and break. */
+@import '@fontsource/cormorant-garamond/latin-400.css';
+@import '@fontsource/cormorant-garamond/latin-500.css';
+@import '@fontsource/cormorant-garamond/latin-600.css';
+@import '@fontsource/cormorant-garamond/latin-700.css';
+@import '@fontsource/cormorant-garamond/vietnamese-400.css';
+@import '@fontsource/cormorant-garamond/vietnamese-500.css';
+@import '@fontsource/cormorant-garamond/vietnamese-600.css';
+@import '@fontsource/cormorant-garamond/vietnamese-700.css';
+
+/* Be Vietnam Pro — body and UI, drawn for Vietnamese. */
+@import '@fontsource/be-vietnam-pro/latin-400.css';
+@import '@fontsource/be-vietnam-pro/latin-500.css';
+@import '@fontsource/be-vietnam-pro/latin-600.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-400.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-500.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-600.css';
+
+/* Dancing Script — the script accents. One of the few script faces with a
+   Vietnamese subset (Great Vibes and Parisienne have none). */
+@import '@fontsource-variable/dancing-script/wght.css';
+
+@theme {
+  /* Sampled from public/images/background.png — the official FPT poster. */
+  --color-ember-950: #3a1405;
+  --color-ember-900: #6b1f00;
+  --color-ember-800: #a83000;
+  --color-ember-700: #d53c00;
+  --color-ember-600: #f24f00;
+  --color-ember-500: #fa7916;
+  --color-ember-400: #ff8624;
+  --color-ember-300: #ffa33f;
+
+  --color-gold-600: #b9741f;
+  --color-gold-500: #e08a2e;
+  --color-gold-400: #f3a95f;
+  --color-gold-300: #f9cd8e;
+  --color-gold-200: #f9d8b6;
+
+  --color-cream-100: #fcead8;
+  --color-cream-50: #fdf5ed;
+
+  --color-ink: #3a1405;
+  --color-ink-soft: #6f4126;
+
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  --font-script: 'Dancing Script Variable', 'Dancing Script', cursive;
+}
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-ember-800);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* ---- The ember field: use the official graduation artwork as the page background. ---- */
+.ember-field {
+  background-color: var(--color-ember-800);
+}
+
+.ember-field::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgb(107 31 0 / 0.12), rgb(107 31 0 / 0.32)),
+    url('/images/background.png') center top / cover no-repeat;
+}
+
+/* Fine film grain, echoing the dust texture across the poster. */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Cream card paper with the faintest warm weave. */
+.paper {
+  background:
+    linear-gradient(180deg, #fdf5ed 0%, #fceada 100%);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.9) inset,
+    0 24px 60px -22px rgb(90 30 0 / 0.45),
+    0 4px 14px -6px rgb(90 30 0 / 0.28);
+}
+
+/* The engraved double rule that frames a printed invitation. */
+.gold-frame {
+  position: relative;
+}
+.gold-frame::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgb(224 138 46 / 0.42);
+  pointer-events: none;
+}
+.gold-frame::after {
+  content: '';
+  position: absolute;
+  inset: 15px;
+  border: 1px solid rgb(224 138 46 / 0.2);
+  pointer-events: none;
+}
+
+/* Letterpress lift on the ember headings. */
+.embossed {
+  text-shadow:
+    0 1px 0 rgb(255 210 150 / 0.55),
+    0 -1px 1px rgb(120 40 0 / 0.35);
+}
+
+/* ---- Motion ---- */
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--peak, 0.7);
+  }
+  88% {
+    opacity: var(--peak, 0.7);
+  }
+  100% {
+    transform: translate3d(var(--dx, 14px), -120px, 0) scale(1.25);
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-drift {
+  animation: drift var(--dur, 16s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+.animate-breathe {
+  animation: breathe 7s ease-in-out infinite;
+}
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-drift,
+  .animate-breathe,
+  .animate-rise {
+    animation: none !important;
+  }
+  .animate-drift {
+    opacity: 0.5;
+  }
+  .animate-rise {
+    opacity: 1;
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Ticket stub ----
+   Two stacked radial-gradient masks punch a real notch out of the card at the
+   perforation, so the ember field shows through instead of a painted-on circle
+   that would never match the gradient behind it. */
+.ticket {
+  --split: 68%;
+  --notch: 10px;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at var(--split) 0, transparent 97%, #000 100%) top /
+      100% 50.5% no-repeat,
+    radial-gradient(circle var(--notch) at var(--split) 100%, transparent 97%, #000 100%) bottom /
+      100% 50.5% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at var(--split) 0, transparent 97%, #000 100%) top /
+      100% 50.5% no-repeat,
+    radial-gradient(circle var(--notch) at var(--split) 100%, transparent 97%, #000 100%) bottom /
+      100% 50.5% no-repeat;
+}
